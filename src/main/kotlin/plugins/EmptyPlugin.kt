@@ -4,7 +4,10 @@ import BoardXPlugin
 import BoardXPluginType
 import MinPriority
 
-object EmptyPlugin : BoardXPlugin() {
+/**
+ * 该插件为查找查找不到时，空插件
+ */
+object EmptyPlugin : BoardXPlugin {
     override fun getPluginType(): BoardXPluginType {
         return BoardXPluginType.SystemPlug
     }

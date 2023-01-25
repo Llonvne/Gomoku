@@ -6,7 +6,7 @@ import BoardXPluginType
 import MaxPriority
 import MinPriority
 
-class PluginPriorityChecker : BoardXPlugin() {
+class PluginPriorityChecker : BoardXPlugin {
     override fun getPluginType(): BoardXPluginType {
         return BoardXPluginType.SystemPlug
     }

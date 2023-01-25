@@ -1,14 +1,16 @@
-package plugins
+package plugins.essentialX
 
 import BoardX
 import BoardXPlugin
 import BoardXPluginType
+import EssentialXPlugin
 import NormalPriority
 import PlayerType
 import PointType
+import kotlinx.serialization.json.JsonObject
 import java.lang.Exception
 
-class SettingChecker : BoardXPlugin() {
+class SettingChecker(args: JsonObject) : EssentialXPlugin(args) {
     override fun getPluginPriority(): Int {
         return NormalPriority
     }

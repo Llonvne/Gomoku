@@ -7,7 +7,7 @@ enum class PlayerType {
 }
 
 class BoardImpl(
-    val boardSize: Int
+    private val boardSize: Int
 ) : Board<PointType> {
 
     private val board = MutableList(boardSize) {

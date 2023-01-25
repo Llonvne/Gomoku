@@ -1,12 +1,14 @@
-package plugins
+package plugins.essentialX
 
 import BoardX
 import BoardXPlugin
 import BoardXPluginType
+import EssentialXPlugin
 import NormalPriority
 import PlayerType
+import kotlinx.serialization.json.JsonObject
 
-class DropAlert : BoardXPlugin() {
+class DropAlert(args: JsonObject) : EssentialXPlugin(args) {
     override fun getPluginPriority(): Int {
         return NormalPriority
     }

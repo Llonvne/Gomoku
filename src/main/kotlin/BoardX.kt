@@ -1,7 +1,5 @@
 import PointType.*
 import BoardXPluginType.*
-import plugins.EmptyPlugin
-import kotlin.reflect.full.primaryConstructor
 
 class BoardX(
     private val boardSize: Int, var initialPluginList: MutableList<BoardXPlugin> = mutableListOf()
@@ -14,15 +12,7 @@ class BoardX(
 
 
     init {
-
-        pluginList.addAll(
-            plugins.map {
-                val cls = Class.forName(it) as BoardXPlugin
-                return@map cls::class.primaryConstructor?.call() ?: EmptyPlugin
-            }
-        )
-
-        pluginList = pluginList.filter { it != EmptyPlugin }.toMutableList()
+        loader();
 
         system()
 
@@ -35,7 +25,10 @@ class BoardX(
 
     fun getPlugin(pluginClassName: String): BoardXPlugin {
         return try {
-            pluginList.filter { it.javaClass.simpleName == pluginClassName }[0]
+            pluginList.filter {
+                it.javaClass.simpleName == pluginClassName
+                        || it.javaClass.name.equals(pluginClassName)
+            }[0]
         } catch (e: Exception) {
             throw IllegalArgumentException("$pluginClassName Not loaded")
         }
@@ -48,6 +41,10 @@ class BoardX(
         } else {
             throw IllegalArgumentException("Unable to hot load SystemPlug")
         }
+    }
+
+    private fun loader() {
+        pluginList = load()
     }
 
     private fun system() {

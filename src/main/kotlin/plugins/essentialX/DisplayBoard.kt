@@ -1,14 +1,16 @@
-package plugins
+package plugins.essentialX
 
 import Board
 import BoardX
 import BoardXPlugin
 import BoardXPluginType
+import EssentialXPlugin
 import NormalPriority
 import PlayerType
 import PointType
+import kotlinx.serialization.json.JsonObject
 
-class DisplayBoard : BoardXPlugin() {
+class DisplayBoard(args: JsonObject) : EssentialXPlugin(args) {
     override fun getPluginPriority(): Int {
         return NormalPriority
     }
