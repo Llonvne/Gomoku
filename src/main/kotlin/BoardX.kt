@@ -2,7 +2,7 @@ import PointType.*
 import BoardXPluginType.*
 
 class BoardX(
-    private val boardSize: Int, var initialPluginList: MutableList<BoardXPlugin> = mutableListOf()
+    boardSize: Int, initialPluginList: MutableList<BoardXPlugin> = mutableListOf()
 ) : Board<PointType> {
 
     var pluginList: MutableList<BoardXPlugin> = initialPluginList
@@ -13,37 +13,38 @@ class BoardX(
 
     init {
         board = BoardImpl(boardSize)
+        pluginList.addAll(load())
 
-        loader();
+        initialPlugin(SystemPlug)
 
-        system()
+        initialPlugin(CreatePlug)
 
-        create()
+        initialPlugin(RuntimePlug)
+
+        initialPlugin(EndPlug)
 
 
-        runtime()
+
+        createPlugin(SystemPlug)
+
+        createPlugin(CreatePlug)
+
+        createPlugin(RuntimePlug)
+
+        createPlugin(EndPlug)
     }
 
-    private fun loader() {
-        pluginList = load()
+
+    private fun initialPlugin(type: BoardXPluginType) {
+        getTypedSortedPluginList(type).forEach { it.initByBoardX(this) }
+
     }
 
-    private fun system() {
-        getTypedSortedPluginList(SystemPlug).forEach { it.initByBoardX(this) }
-        getTypedSortedPluginList(SystemPlug).forEach { it.onCreate(this) }
+    private fun createPlugin(type: BoardXPluginType) {
+        getTypedSortedPluginList(type).forEach { it.onCreate(this) }
     }
 
-    private fun create() {
-        getTypedSortedPluginList(CreatePlug).forEach { it.initByBoardX(this) }
-        getTypedSortedPluginList(CreatePlug).forEach { it.onCreate(this) }
-    }
-
-    private fun runtime() {
-        getTypedSortedPluginList(RuntimePlug).forEach { it.initByBoardX(this) }
-        getTypedSortedPluginList(RuntimePlug).forEach { it.onCreate(this) }
-    }
-
-    fun getTypedSortedPluginList(type: BoardXPluginType): List<BoardXPlugin> {
+    private fun getTypedSortedPluginList(type: BoardXPluginType): List<BoardXPlugin> {
         return typedPlugins[type]?.sortedByDescending { it.getPluginPriority() } ?: listOf()
     }
 

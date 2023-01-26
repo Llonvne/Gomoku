@@ -9,6 +9,7 @@ import PlayerType
 import kotlinx.serialization.json.JsonObject
 
 class DropAlert(args: JsonObject) : EssentialXPlugin(args) {
+
     override fun getPluginPriority(): Int {
         return NormalPriority
     }

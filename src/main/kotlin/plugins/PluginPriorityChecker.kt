@@ -22,5 +22,7 @@ class PluginPriorityChecker : BoardXPlugin {
             }
             return@filter it.getPluginPriority() in MinPriority..MaxPriority
         }.toMutableList()
+
+        board
     }
 }

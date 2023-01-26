@@ -2,7 +2,6 @@ package plugins.essentialX
 
 import Board
 import BoardX
-import BoardXPlugin
 import BoardXPluginType
 import EssentialXPlugin
 import NormalPriority

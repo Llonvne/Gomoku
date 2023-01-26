@@ -7,6 +7,7 @@ import EssentialXPlugin
 import NormalPriority
 import PlayerType
 import loadEssentialX
+import qualifiedName
 import simpleName
 
 class Essentials : BoardXPlugin {
@@ -30,8 +31,10 @@ class Essentials : BoardXPlugin {
         println("EssentialX completed hot-loading part of the plugin")
     }
 
-    fun getEssentialXPlugin(clsName: String): EssentialXPlugin {
-        return essentialsPlugins.filter { it.simpleName() == clsName }[0]
+    fun getEssentialXPlugin(clsName: String): EssentialXPlugin? {
+        return essentialsPlugins.find {
+            (it.simpleName() == clsName) || (it.qualifiedName() == clsName)
+        }
     }
 
     fun essentialXPluginNameList(): List<String> {

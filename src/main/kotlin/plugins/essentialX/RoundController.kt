@@ -11,6 +11,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import str
 
 class RoundController(args: JsonObject) : EssentialXPlugin(args) {
+
     var nowplayer: PlayerType
 
     init {
