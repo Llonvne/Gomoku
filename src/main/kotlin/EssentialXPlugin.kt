@@ -1,11 +1,20 @@
-import kotlinx.serialization.json.JsonObject
 import plugins.Essentials
-import kotlin.reflect.jvm.internal.impl.types.model.ArgumentList
+import plugins.event.Event
+import plugins.event.rootPath
 
-abstract class EssentialXPlugin(args: JsonObject) : BoardXPlugin {
+
+enum class EssentialXPluginType {
+    Filter, Plugin
+}
+
+abstract class EssentialXPlugin(listeningPath: String = rootPath) {
     lateinit var essentials: Essentials
-    fun initByEssential(board: BoardX) {
-        println("[Plugin Loader] ${this.javaClass.simpleName} loading ...")
-        init(board)
+
+    abstract fun init()
+
+    open fun getEssentialXPluginType(): EssentialXPluginType {
+        return EssentialXPluginType.Plugin
     }
+
+    abstract fun onEvent(event: Event)
 }

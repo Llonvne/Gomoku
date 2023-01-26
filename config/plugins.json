@@ -21,6 +21,10 @@
       "Args": {
         "FirstPlayer": "Black"
       }
+    },
+    {
+      "PluginName": "plugins.essentialX.observerPattern.EventQueueEssentialPluginAdapter",
+      "Args": {}
     }
   ]
 }

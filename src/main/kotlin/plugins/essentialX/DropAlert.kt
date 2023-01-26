@@ -1,23 +1,28 @@
 package plugins.essentialX
 
 import BoardX
-import BoardXPlugin
 import BoardXPluginType
 import EssentialXPlugin
 import NormalPriority
 import PlayerType
-import kotlinx.serialization.json.JsonObject
+import plugins.event.Event
+import plugins.event.SetEvent
+import plugins.event.SetEventArgs
+import plugins.event.SetEventPath
 
-class DropAlert(args: JsonObject) : EssentialXPlugin(args) {
-    override fun getPluginPriority(): Int {
-        return NormalPriority
+class DropAlert : EssentialXPlugin(SetEventPath) {
+
+    override fun init() {
     }
 
-    override fun getPluginType(): BoardXPluginType {
-        return BoardXPluginType.RuntimePlug
+    override fun onEvent(event: Event) {
+        if (event is SetEvent) {
+            val arg = event.getArgs() as SetEventArgs
+            alert(arg.x, arg.y, arg.playerType)
+        }
     }
 
-    override fun onSet(x: Int, y: Int, player: PlayerType, board: BoardX) {
+    fun alert(x: Int, y: Int, player: PlayerType) {
         println("[Alert] The player ${player.name} drop on $x,$y")
     }
 }

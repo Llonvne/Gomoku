@@ -11,12 +11,6 @@ interface BoardXPlugin {
     fun getPluginType(): BoardXPluginType
 
     fun getPluginPriority(): Int
-
-    fun initByBoardX(board: BoardX) {
-        println("[Plugin Loader] ${this.javaClass.simpleName} loading ...")
-        init(board)
-    }
-
     fun init(board: BoardX) {}
 
     fun onGet(x: Int, y: Int, board: BoardX) {}
@@ -29,7 +23,6 @@ interface BoardXPlugin {
     fun onOver(winner: PlayerType, board: BoardX) {
     }
 
-    fun beforeSetting(x: Int, y: Int, player: PlayerType, board: BoardX): Boolean {
-        return true
+    fun beforeSetting(x: Int, y: Int, player: PlayerType, board: BoardX) {
     }
 }

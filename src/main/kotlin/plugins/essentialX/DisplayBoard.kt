@@ -1,30 +1,13 @@
 package plugins.essentialX
 
 import Board
-import BoardX
-import BoardXPlugin
-import BoardXPluginType
 import EssentialXPlugin
-import NormalPriority
-import PlayerType
+import EssentialXPluginType
 import PointType
-import kotlinx.serialization.json.JsonObject
+import plugins.event.Event
 
-class DisplayBoard(args: JsonObject) : EssentialXPlugin(args) {
-    override fun getPluginPriority(): Int {
-        return NormalPriority
-    }
-
-    override fun getPluginType(): BoardXPluginType {
-        return BoardXPluginType.RuntimePlug
-    }
-
-    override fun onCreate(board: BoardX) {
-        display(board)
-    }
-
-    override fun onSet(x: Int, y: Int, player: PlayerType, board: BoardX) {
-        display(board)
+class DisplayBoard() : EssentialXPlugin("") {
+    override fun init() {
     }
 
     private fun display(board: Board<PointType>) {
@@ -32,5 +15,8 @@ class DisplayBoard(args: JsonObject) : EssentialXPlugin(args) {
             pointTypes.forEach { print(it.ordinal) }
             println()
         }
+    }
+
+    override fun onEvent(event: Event) {
     }
 }
