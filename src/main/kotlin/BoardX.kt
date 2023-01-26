@@ -12,35 +12,16 @@ class BoardX(
 
 
     init {
+        board = BoardImpl(boardSize)
+
         loader();
 
         system()
 
-        board = BoardImpl(boardSize)
         create()
 
 
         runtime()
-    }
-
-    fun getPlugin(pluginClassName: String): BoardXPlugin {
-        return try {
-            pluginList.filter {
-                it.javaClass.simpleName == pluginClassName
-                        || it.javaClass.name.equals(pluginClassName)
-            }[0]
-        } catch (e: Exception) {
-            throw IllegalArgumentException("$pluginClassName Not loaded")
-        }
-
-    }
-
-    fun hotLoadPlugin(plugin: BoardXPlugin) {
-        if (plugin.getPluginType() != SystemPlug) {
-            pluginList.add(plugin)
-        } else {
-            throw IllegalArgumentException("Unable to hot load SystemPlug")
-        }
     }
 
     private fun loader() {

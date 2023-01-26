@@ -8,12 +8,13 @@ import NormalPriority
 import PlayerType
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import str
 
 class RoundController(args: JsonObject) : EssentialXPlugin(args) {
-    private var firstPlayer: PlayerType
+    var nowplayer: PlayerType
 
     init {
-        firstPlayer = PlayerType.valueOf(args.getValue("FirstPlayer").jsonPrimitive.content)
+        nowplayer = PlayerType.valueOf(args.getValue("FirstPlayer").str())
     }
 
     override fun getPluginPriority(): Int {
@@ -24,7 +25,16 @@ class RoundController(args: JsonObject) : EssentialXPlugin(args) {
         return BoardXPluginType.RuntimePlug
     }
 
-    override fun init(board: BoardX) {
+    override fun onCreate(board: BoardX) {
+        println("Now it's a ${nowplayer.name} word drop")
+    }
 
+    override fun onSet(x: Int, y: Int, player: PlayerType, board: BoardX) {
+        next()
+    }
+
+    private fun next() {
+        nowplayer = PlayerType.values()[1 - nowplayer.ordinal]
+        println("Now it's a ${nowplayer.name} word drop")
     }
 }

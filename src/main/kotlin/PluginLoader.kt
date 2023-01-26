@@ -1,4 +1,5 @@
 import kotlinx.serialization.json.*
+import plugins.Essentials
 import java.io.File
 import java.lang.RuntimeException
 import kotlin.reflect.full.primaryConstructor
@@ -36,7 +37,7 @@ fun load(): MutableList<BoardXPlugin> {
     }
 }
 
-inline fun loadEssentialX(): MutableList<EssentialXPlugin> {
+fun Essentials.loadEssentialX(): MutableList<EssentialXPlugin> {
     return try {
         val l =
             Json.parseToJsonElement(File("./config/plugins.json").readText()).jsonObject["EssentialXPlugins"]!!.jsonArray.map { it.jsonObject }
@@ -48,9 +49,11 @@ inline fun loadEssentialX(): MutableList<EssentialXPlugin> {
             if (!superTypesString.contains(EssentialXPlugin::class.simpleName)) {
                 throw RuntimeException("./config/plugins.json 包含非 ${EssentialXPlugin::class.simpleName} 插件 : $clsName")
             }
-            cls.primaryConstructor?.call(
+            val obj = cls.primaryConstructor?.call(
                 it["Args"]?.jsonObject
             ) as EssentialXPlugin
+            obj.essentials = this
+            obj
         }.toMutableList()
 
     } catch (e: Exception) {
@@ -74,27 +77,10 @@ fun JsonElement.str(): String {
     }
 }
 
-
-//    private val configObject = buildJsonObject {
-//        putJsonArray("defaultPlugins") {
-//            for (i in listOf("plugins.PluginPriorityChecker", "plugins.Essentials")) {
-//                add(i)
-//            }
-//        }
-//        put("123", "123")
-//    }
-//
-//    fun save() {
-//        val f = File("./config/plugins.json")
-//        f.createNewFile();
-//
-//        f.writeText(json.encodeToString(configObject))
-//    }
-
 fun BoardXPlugin.simpleName(): String {
     return this::class.java.simpleName
 }
 
-fun BoardXPlugin.name(): String {
+fun BoardXPlugin.qualifiedName(): String {
     return this::class.qualifiedName!!
 }
