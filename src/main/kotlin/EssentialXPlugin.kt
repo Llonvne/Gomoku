@@ -1,6 +1,6 @@
 import plugins.Essentials
-import plugins.event.Event
-import plugins.event.rootPath
+import plugins.essentialX.event.Event
+import plugins.essentialX.event.rootPath
 
 
 enum class EssentialXPluginType {

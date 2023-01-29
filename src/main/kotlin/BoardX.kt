@@ -13,7 +13,6 @@ class BoardX(
 
     init {
         board = BoardImpl(boardSize)
-        pluginList.addAll(load())
 
         pluginList.addAll(load())
 

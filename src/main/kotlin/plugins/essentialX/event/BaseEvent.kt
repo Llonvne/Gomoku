@@ -1,4 +1,4 @@
-package plugins.event
+package plugins.essentialX.event
 
 abstract class BaseEvent<ArgType : Any>(
     private val sender: (Event) -> Unit, private val type: EventType,
@@ -6,7 +6,7 @@ abstract class BaseEvent<ArgType : Any>(
 ) :
     Event {
     override fun recall(event: Event) {
-        return sender(event)
+        sender(event)
     }
 
     override fun getType(): EventType {

@@ -8,8 +8,8 @@ import NormalPriority
 import PlayerType
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import plugins.event.Event
-import plugins.event.rootPath
+import plugins.essentialX.event.Event
+import plugins.essentialX.event.rootPath
 import str
 
 class RoundController : EssentialXPlugin(rootPath) {

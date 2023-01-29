@@ -6,8 +6,8 @@ import EssentialXPlugin
 import EssentialXPluginType
 import MinPriority
 import kotlinx.serialization.json.buildJsonObject
-import plugins.event.Event
-import plugins.event.rootPath
+import plugins.essentialX.event.Event
+import plugins.essentialX.event.rootPath
 
 /**
  * 该插件为查找查找不到时，空插件

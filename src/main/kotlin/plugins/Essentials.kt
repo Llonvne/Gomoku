@@ -7,6 +7,7 @@ import EssentialXPlugin
 import NormalPriority
 import PlayerType
 import loadEssentialX
+import plugins.essentialX.event.*
 import plugins.essentialX.observerPattern.Observable
 import plugins.event.*
 
@@ -29,7 +30,7 @@ class Essentials : BoardXPlugin {
 
     override fun init(board: BoardX) {
         println("EssentialX plugins is hot loading some plugins please wait ...")
-        essentialsPlugins = this.loadEssentialX()
+//        essentialsPlugins = this.loadEssentialX()
 
         essentialsPlugins.forEach { it.init() }
         println("EssentialX completed hot-loading part of the plugin")

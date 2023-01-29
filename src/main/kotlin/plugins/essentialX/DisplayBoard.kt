@@ -4,7 +4,7 @@ import Board
 import EssentialXPlugin
 import EssentialXPluginType
 import PointType
-import plugins.event.Event
+import plugins.essentialX.event.Event
 
 class DisplayBoard() : EssentialXPlugin("") {
     override fun init() {

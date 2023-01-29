@@ -1,4 +1,4 @@
-package plugins.event
+package plugins.essentialX.event
 
 import BoardX
 import PlayerType

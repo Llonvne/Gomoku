@@ -5,10 +5,10 @@ import BoardXPluginType
 import EssentialXPlugin
 import NormalPriority
 import PlayerType
-import plugins.event.Event
-import plugins.event.SetEvent
-import plugins.event.SetEventArgs
-import plugins.event.SetEventPath
+import plugins.essentialX.event.Event
+import plugins.essentialX.event.SetEvent
+import plugins.essentialX.event.SetEventArgs
+import plugins.essentialX.event.SetEventPath
 
 class DropAlert : EssentialXPlugin(SetEventPath) {
 
