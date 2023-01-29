@@ -1,5 +1,12 @@
-import BoardXPluginType.*
-import PointType.*
+package boardx
+
+import boardx.BoardXPluginType.*
+import board.PointType.*
+import board.Board
+import board.BoardImpl
+import board.PlayerType
+import board.PointType
+import plugins.load
 
 class BoardX(
     boardSize: Int, initialPluginList: MutableList<BoardXPlugin> = mutableListOf()
@@ -70,7 +77,7 @@ class BoardX(
         return when (pointType) {
             Black -> PlayerType.Black
             White -> PlayerType.White
-            Empty -> throw IllegalArgumentException("无法将 PointType.Empty 转换为 PlayerType")
+            Empty -> throw IllegalArgumentException("无法将 board.PointType.Empty 转换为 board.PlayerType")
         }
     }
 }

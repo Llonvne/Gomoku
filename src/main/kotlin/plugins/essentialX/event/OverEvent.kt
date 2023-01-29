@@ -1,7 +1,7 @@
 package plugins.essentialX.event
 
-import BoardX
-import PlayerType
+import boardx.BoardX
+import board.PlayerType
 
 data class OverEventArg(
     val winner: PlayerType,

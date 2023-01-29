@@ -1,3 +1,5 @@
+package board
+
 interface Board<PointType> {
     operator fun get(x: Int, y: Int): PointType
 

@@ -1,6 +1,6 @@
 package plugins.essentialX.event
 
-import BoardX
+import boardx.BoardX
 
 class CreateEventArgs(
     val board: BoardX

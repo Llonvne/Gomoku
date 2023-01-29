@@ -1,11 +1,9 @@
 package plugins
 
-import BoardXPlugin
-import BoardXPluginType
-import EssentialXPlugin
-import EssentialXPluginType
-import MinPriority
-import kotlinx.serialization.json.buildJsonObject
+import boardx.BoardXPlugin
+import boardx.BoardXPluginType
+import boardx.MinPriority
+import plugins.essentialX.EssentialXPlugin
 import plugins.essentialX.event.Event
 import plugins.essentialX.event.rootPath
 

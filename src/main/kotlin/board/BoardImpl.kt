@@ -1,3 +1,5 @@
+package board
+
 enum class PointType {
     Black, White, Empty
 }

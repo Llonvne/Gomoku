@@ -1,3 +1,5 @@
+package plugins.essentialX
+
 import plugins.Essentials
 import plugins.essentialX.event.Event
 import plugins.essentialX.event.rootPath

@@ -1,5 +1,8 @@
+package plugins
+
+import boardx.BoardXPlugin
 import kotlinx.serialization.json.*
-import plugins.Essentials
+import plugins.essentialX.EssentialXPlugin
 import java.io.File
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
@@ -11,8 +14,8 @@ fun load(): MutableList<BoardXPlugin> {
         Json.parseToJsonElement(readFileToString(PluginConfigPath))
             .jsonObject["BoardXPlugins"]!!.jsonArray.map { it.str() }.map { clsName ->
             val cls = getKClassFromName(clsName)
-            if (!getSuperTypesName(cls).contains("BoardXPlugin")) {
-                throw RuntimeException("./config/plugins.json 包含非 BoardXPlugin 插件 : $clsName")
+            if (!getSuperTypesName(cls).contains("boardx.BoardXPlugin")) {
+                throw RuntimeException("./config/plugins.json 包含非 boardx.BoardXPlugin 插件 : $clsName")
             }
             return@map cls.primaryConstructor?.call() as BoardXPlugin
         }.toMutableList()

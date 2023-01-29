@@ -1,10 +1,6 @@
 package plugins.essentialX
 
-import BoardX
-import BoardXPluginType
-import EssentialXPlugin
-import NormalPriority
-import PlayerType
+import board.PlayerType
 import plugins.essentialX.event.Event
 import plugins.essentialX.event.SetEvent
 import plugins.essentialX.event.SetEventArgs

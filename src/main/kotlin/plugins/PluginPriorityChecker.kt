@@ -1,10 +1,6 @@
 package plugins
 
-import BoardX
-import BoardXPlugin
-import BoardXPluginType
-import MaxPriority
-import MinPriority
+import boardx.*
 
 class PluginPriorityChecker : BoardXPlugin {
     override fun getPluginType(): BoardXPluginType {

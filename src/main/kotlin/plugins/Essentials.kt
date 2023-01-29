@@ -1,15 +1,13 @@
 package plugins
 
-import BoardX
-import BoardXPlugin
-import BoardXPluginType
-import EssentialXPlugin
-import NormalPriority
-import PlayerType
-import loadEssentialX
+import plugins.essentialX.EssentialXPlugin
+import board.PlayerType
+import boardx.BoardX
+import boardx.BoardXPlugin
+import boardx.BoardXPluginType
+import boardx.NormalPriority
 import plugins.essentialX.event.*
 import plugins.essentialX.observerPattern.Observable
-import plugins.event.*
 
 
 class Essentials : BoardXPlugin {
@@ -30,7 +28,7 @@ class Essentials : BoardXPlugin {
 
     override fun init(board: BoardX) {
         println("EssentialX plugins is hot loading some plugins please wait ...")
-//        essentialsPlugins = this.loadEssentialX()
+//        essentialsPlugins = this.plugins.loadEssentialX()
 
         essentialsPlugins.forEach { it.init() }
         println("EssentialX completed hot-loading part of the plugin")

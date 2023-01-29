@@ -1,3 +1,6 @@
+import board.PointType
+import boardx.BoardX
+
 fun main(args: Array<String>) {
     val b = BoardX(
         5,

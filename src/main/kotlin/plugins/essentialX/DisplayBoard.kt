@@ -1,9 +1,7 @@
 package plugins.essentialX
 
-import Board
-import EssentialXPlugin
-import EssentialXPluginType
-import PointType
+import board.Board
+import board.PointType
 import plugins.essentialX.event.Event
 
 class DisplayBoard() : EssentialXPlugin("") {

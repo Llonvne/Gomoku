@@ -1,3 +1,7 @@
+package boardx
+
+import board.PlayerType
+
 enum class BoardXPluginType {
     RuntimePlug, CreatePlug, EndPlug, SystemPlug
 }
