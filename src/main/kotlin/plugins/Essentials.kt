@@ -9,8 +9,6 @@ import plugins.essentialX.DisplayBoard
 import plugins.essentialX.EssentialXPlugin
 import plugins.essentialX.event.*
 import plugins.essentialX.observerPattern.Observable
-import plugins.essentialX.path.getRoot
-import plugins.essentialX.path.parser
 
 class Essentials : BoardXPlugin {
 
@@ -18,11 +16,9 @@ class Essentials : BoardXPlugin {
         DisplayBoard()
     )
 
-    private var observable: Observable<Event> = Observable()
+    private var observable: Observable<Event> = Observable("/")
 
     private var sender = observable::notifyObservers
-
-    private val rootFolder = getRoot()
 
     override fun getPluginType(): BoardXPluginType {
         return BoardXPluginType.SystemPlug
@@ -34,10 +30,6 @@ class Essentials : BoardXPlugin {
 
     override fun init(board: BoardX) {
         essentialsPlugins.forEach { it.init() }
-
-        essentialsPlugins.forEach {
-            parser(it.getListeningUrl(), rootFolder)
-        }
     }
 
     private fun sendEvent(event: Event) {

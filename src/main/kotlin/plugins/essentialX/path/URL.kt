@@ -1,7 +1,10 @@
 package plugins.essentialX.path
 
+import plugins.essentialX.EssentialXPlugin
 import plugins.essentialX.event.pathSpliterator
 import plugins.essentialX.event.rootPath
+import plugins.essentialX.observerPattern.Observable
+import plugins.essentialX.observerPattern.Transfer
 
 interface URL {
     fun getURLStr(): String
@@ -74,13 +77,4 @@ class URLImpl(private val str: String) : URL {
     override fun hashCode(): Int {
         return str.hashCode()
     }
-}
-
-fun parser(url: URL, root: Folder): Folder {
-    val prefixes = url.getPrefixes()
-    var cur = root
-    for (prefix in prefixes) {
-        cur = cur.createFolder(prefix)
-    }
-    return cur
 }
