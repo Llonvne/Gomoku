@@ -13,6 +13,7 @@ class BoardX(
 
     init {
         board = BoardImpl(boardSize)
+        pluginList.addAll(load())
 
         initialPlugin(SystemPlug)
 
