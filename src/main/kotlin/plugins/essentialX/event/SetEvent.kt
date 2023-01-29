@@ -1,7 +1,7 @@
 package plugins.essentialX.event
 
-import boardx.BoardX
 import board.PlayerType
+import boardx.BoardX
 
 class SetEventArgs(
     val x: Int,

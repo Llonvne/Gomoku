@@ -1,22 +1,28 @@
 package plugins
 
-import plugins.essentialX.EssentialXPlugin
 import board.PlayerType
 import boardx.BoardX
 import boardx.BoardXPlugin
 import boardx.BoardXPluginType
 import boardx.NormalPriority
+import plugins.essentialX.DisplayBoard
+import plugins.essentialX.EssentialXPlugin
 import plugins.essentialX.event.*
 import plugins.essentialX.observerPattern.Observable
-
+import plugins.essentialX.path.getRoot
+import plugins.essentialX.path.parser
 
 class Essentials : BoardXPlugin {
 
-    private var essentialsPlugins: MutableList<EssentialXPlugin> = mutableListOf()
+    private var essentialsPlugins: MutableList<EssentialXPlugin> = mutableListOf(
+        DisplayBoard()
+    )
 
     private var observable: Observable<Event> = Observable()
 
     private var sender = observable::notifyObservers
+
+    private val rootFolder = getRoot()
 
     override fun getPluginType(): BoardXPluginType {
         return BoardXPluginType.SystemPlug
@@ -27,11 +33,11 @@ class Essentials : BoardXPlugin {
     }
 
     override fun init(board: BoardX) {
-        println("EssentialX plugins is hot loading some plugins please wait ...")
-//        essentialsPlugins = this.plugins.loadEssentialX()
-
         essentialsPlugins.forEach { it.init() }
-        println("EssentialX completed hot-loading part of the plugin")
+
+        essentialsPlugins.forEach {
+            parser(it.getListeningUrl(), rootFolder)
+        }
     }
 
     private fun sendEvent(event: Event) {

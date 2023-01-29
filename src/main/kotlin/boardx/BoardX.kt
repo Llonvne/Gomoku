@@ -1,11 +1,11 @@
 package boardx
 
-import boardx.BoardXPluginType.*
-import board.PointType.*
 import board.Board
 import board.BoardImpl
 import board.PlayerType
 import board.PointType
+import board.PointType.*
+import boardx.BoardXPluginType.*
 import plugins.load
 
 class BoardX(

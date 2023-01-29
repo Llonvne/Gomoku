@@ -3,8 +3,10 @@ package plugins.essentialX
 import board.Board
 import board.PointType
 import plugins.essentialX.event.Event
+import plugins.essentialX.event.SetEventArgs
+import plugins.essentialX.event.SetEventPath
 
-class DisplayBoard() : EssentialXPlugin("") {
+class DisplayBoard() : EssentialXPlugin(SetEventPath) {
     override fun init() {
     }
 
@@ -16,5 +18,6 @@ class DisplayBoard() : EssentialXPlugin("") {
     }
 
     override fun onEvent(event: Event) {
+        (event.getArgs() as SetEventArgs).board.also { display(it) }
     }
 }
