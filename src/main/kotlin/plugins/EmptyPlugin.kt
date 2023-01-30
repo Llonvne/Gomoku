@@ -10,7 +10,7 @@ import plugins.essentialX.event.rootPath
 /**
  * 该插件为查找查找不到时，空插件
  */
-object EmptyPlugin : BoardXPlugin, EssentialXPlugin(rootPath) {
+object EmptyPlugin : BoardXPlugin, EssentialXPlugin() {
     override fun getPluginType(): BoardXPluginType {
         return BoardXPluginType.SystemPlug
     }

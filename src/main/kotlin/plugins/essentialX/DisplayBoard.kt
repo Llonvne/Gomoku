@@ -6,7 +6,7 @@ import boardx.NormalPriority
 import plugins.essentialX.event.*
 import plugins.essentialX.observerPattern.Observable
 
-class DisplayBoard : EssentialXPlugin(SetEventPath) {
+class DisplayBoard : EssentialXPlugin(listOf(SetEventPath)) {
 
     private fun display(board: Board<PointType>) {
         board.direct().forEach { pointTypes ->

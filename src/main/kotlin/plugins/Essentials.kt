@@ -21,9 +21,9 @@ class Essentials : BoardXPlugin {
 
     private val essentialsPlugins: MutableList<EssentialXPlugin> = mutableListOf()
 
-    private val map: MutableMap<Path, Observable<Event>> = mutableMapOf()
+    private val m: MutableMap<Path, Observable<Event>> = mutableMapOf()
 
-    private var sender: EventPriorityQueue = EventPriorityQueueImpl(map)
+    private var sender: EventPriorityQueue = EventPriorityQueueImpl(m)
 
     private fun sendEvent(event: Event) {
         sender.enQueueFun(event)
@@ -58,31 +58,34 @@ class Essentials : BoardXPlugin {
 
         pathMap = next(pathMap!!, "PathStructure")
 
-        buildPathTree(pathMap, map, Path(rootPath))
+        buildPathTree(pathMap, m, Path(rootPath))
 
 
         essentialsPlugins.forEach {
             val pluginPath = Path(PluginBasePath + it.javaClass.simpleName)
             val ob = Observable<Event>()
-            map[pluginPath] = ob
+            m[pluginPath] = ob
             it.init(ob::addObserver, pluginPath)
             for (p in it.registerCustomerPath()) {
-                map[Path(pluginPath.pathString + pathSpliterator + p)] = Observable()
+                m[Path(pluginPath.pathString + pathSpliterator + p)] = Observable()
             }
-            val observable = map[it.getPath()]
-            if (observable == null) {
-                println("${it.javaClass.simpleName} 插件的路径 ${it.getPath()} 并不存在")
-            }
-            observable?.addObserver(
-                object : Observer<Event> {
-                    override fun update(value: Event) {
-                        it.onEvent(value)
-                    }
+
+            for (path: String in it.getPath()) {
+                val observable = m[Path(path)]
+                if (observable == null) {
+                    println("${it.javaClass.simpleName} 插件的路径 ${path} 并不存在")
                 }
-            )
+                observable?.addObserver(
+                    object : Observer<Event> {
+                        override fun update(value: Event) {
+                            it.onEvent(value)
+                        }
+                    }
+                )
+            }
         }
 
-        map[Path(rootPath)] = Observable()
+        m[Path(rootPath)] = Observable()
     }
 
     override fun onGet(x: Int, y: Int, board: BoardX) {

@@ -11,9 +11,11 @@ enum class EssentialXPluginType {
     Filter, Plugin
 }
 
-abstract class EssentialXPlugin(listeningPath: String = rootPath) {
+abstract class EssentialXPlugin(listeningPaths: List<String> = listOf(rootPath)) {
 
-    private val path = Path(listeningPath)
+    constructor(path: String) : this(listOf(path))
+
+    private val path = listeningPaths
 
     open fun init(addObserver: (Observer<Event>) -> Unit, observerPath: Path) {
     }
@@ -28,7 +30,7 @@ abstract class EssentialXPlugin(listeningPath: String = rootPath) {
         return EssentialXPluginType.Plugin
     }
 
-    fun getPath(): Path {
+    fun getPath(): List<String> {
         return path
     }
 
