@@ -8,17 +8,20 @@ import boardx.NormalPriority
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import plugins.essentialX.DisplayBoard
+import plugins.essentialX.DropAlert
 import plugins.essentialX.EssentialXPlugin
 import plugins.essentialX.event.*
 import plugins.essentialX.observerPattern.Observable
+import plugins.essentialX.observerPattern.Observer
 import plugins.essentialX.path.next
 import java.nio.file.Path
 import kotlin.io.path.Path
+import kotlin.io.path.pathString
 
 class Essentials : BoardXPlugin {
 
     private var essentialsPlugins: MutableList<EssentialXPlugin> = mutableListOf(
-        DisplayBoard()
+        DisplayBoard(), DropAlert()
     )
 
     private val map: MutableMap<Path, Observable<Event>> = mutableMapOf()
@@ -33,10 +36,10 @@ class Essentials : BoardXPlugin {
         return NormalPriority
     }
 
-    fun buildTree(obj: JsonObject?, map: MutableMap<Path, Observable<Event>>, fatherPath: Path) {
+    private fun buildTree(obj: JsonObject?, map: MutableMap<Path, Observable<Event>>, fatherPath: Path) {
         if (obj != null) {
             for (key in obj.keys) {
-                val newPath = "${fatherPath.toUri()}/$key"
+                val newPath = "${fatherPath.pathString}/$key"
                 map[Path(newPath)] = Observable()
                 val value: JsonObject? = obj[key]?.jsonObject
                 if (value != null) {
@@ -55,7 +58,19 @@ class Essentials : BoardXPlugin {
         buildTree(pathMap, map, Path(rootPath))
 
 
-        essentialsPlugins.forEach {}
+        essentialsPlugins.forEach {
+            val observable = map[it.getPath()]
+            if (observable == null) {
+                println("${it.javaClass.simpleName} 插件的路径 ${it.getPath()} 并不存在")
+            }
+            observable?.addObserver(
+                object : Observer<Event> {
+                    override fun update(value: Event) {
+                        it.onEvent(value)
+                    }
+                }
+            )
+        }
 
         map[Path(rootPath)] = Observable()
 
@@ -65,7 +80,7 @@ class Essentials : BoardXPlugin {
         if (map[Path(event.getPath())] == null) {
             println("${event.getPath()} 不存在，事件发送失败")
         } else {
-            println("事件发送成功")
+            println("${event.getType()} 发送成功，路径为 ${event.getPath()}")
             map[Path(event.getPath())]?.notifyObservers(event)
         }
     }
