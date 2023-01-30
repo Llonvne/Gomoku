@@ -5,11 +5,13 @@ import boardx.BoardX
 import boardx.BoardXPlugin
 import boardx.BoardXPluginType
 import boardx.NormalPriority
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonObject
 import plugins.essentialX.DisplayBoard
 import plugins.essentialX.EssentialXPlugin
 import plugins.essentialX.event.*
 import plugins.essentialX.observerPattern.Observable
-import plugins.essentialX.observerPattern.Observer
+import plugins.essentialX.path.next
 import java.nio.file.Path
 import kotlin.io.path.Path
 
@@ -31,31 +33,41 @@ class Essentials : BoardXPlugin {
         return NormalPriority
     }
 
+    fun buildTree(obj: JsonObject?, map: MutableMap<Path, Observable<Event>>, fatherPath: Path) {
+        if (obj != null) {
+            for (key in obj.keys) {
+                val newPath = "${fatherPath.toUri()}/$key"
+                map[Path(newPath)] = Observable()
+                val value: JsonObject? = obj[key]?.jsonObject
+                if (value != null) {
+                    buildTree(value, map, Path(newPath))
+                }
+            }
+        }
+    }
+
     override fun init(board: BoardX) {
 
-        val pathMap = plugins.essentialX.path.load()
+        var pathMap: JsonObject? = plugins.essentialX.path.load()
+
+        pathMap = next(pathMap!!, "PathStructure")
+
+        buildTree(pathMap, map, Path(rootPath))
+
 
         essentialsPlugins.forEach {}
 
         map[Path(rootPath)] = Observable()
 
-        map[Path(rootPath)]?.addObserver(
-            object :Observer<Event>{
-                override fun update(value: Event) {
-                    println("Event ${value.getType()}")
-                }
-            }
-        )
     }
 
     private fun sendEvent(event: Event) {
-//        if (map[Path(event.getPath())] == null){
-//            println("${event.getPath()} 不存在，事件发送失败")
-//        }
-//        else {
-//            println("事件发送成功")
-//            map[Path(event.getPath())]?.notifyObservers(event)
-//        }
+        if (map[Path(event.getPath())] == null) {
+            println("${event.getPath()} 不存在，事件发送失败")
+        } else {
+            println("事件发送成功")
+            map[Path(event.getPath())]?.notifyObservers(event)
+        }
     }
 
     override fun onGet(x: Int, y: Int, board: BoardX) {

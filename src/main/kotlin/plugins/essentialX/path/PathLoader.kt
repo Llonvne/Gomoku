@@ -12,6 +12,6 @@ fun load(): JsonObject {
     return Json.parseToJsonElement(w).jsonObject
 }
 
-fun next(obj: JsonObject, key: String): JsonObject {
-    return obj.jsonObject[key]?.jsonObject!!
+fun next(obj: JsonObject, key: String): JsonObject? {
+    return obj.jsonObject[key]?.jsonObject
 }

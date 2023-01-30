@@ -4,6 +4,8 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import kotlin.io.path.Path
+import kotlin.io.path.appendText
 
 fun main(args: Array<String>) {
     val b = BoardX(
@@ -13,5 +15,4 @@ fun main(args: Array<String>) {
 
     b[0, 0] = PointType.White
     b[0, 1] = PointType.White
-
 }
