@@ -8,7 +8,7 @@ import boardx.NormalPriority
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import plugins.essentialX.EssentialXPlugin
-import plugins.essentialX.event.EventQueue
+import plugins.essentialX.event.EventPriorityQueueImpl
 import plugins.essentialX.event.*
 import plugins.essentialX.observerPattern.Observable
 import plugins.essentialX.observerPattern.Observer
@@ -23,7 +23,7 @@ class Essentials : BoardXPlugin {
 
     private val map: MutableMap<Path, Observable<Event>> = mutableMapOf()
 
-    private var sender: EventPriorityQueue = EventQueue(map)
+    private var sender: EventPriorityQueue = EventPriorityQueueImpl(map)
 
     private fun sendEvent(event: Event) {
         sender.enQueueFun(event)

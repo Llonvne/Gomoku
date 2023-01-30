@@ -9,7 +9,7 @@ interface EventPriorityQueue {
     fun enQueueFun(event: Event)
 }
 
-class EventQueue(private val map: MutableMap<Path, Observable<Event>>) : EventPriorityQueue {
+class EventPriorityQueueImpl(private val map: MutableMap<Path, Observable<Event>>) : EventPriorityQueue {
     private val queue = PriorityBlockingQueue<Event>(
         1000
     ) { o1, o2 -> return@PriorityBlockingQueue o1.getPriority().compareTo(o2.getPriority()) }
