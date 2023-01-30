@@ -2,9 +2,8 @@ package plugins.essentialX
 
 import board.Board
 import board.PointType
-import plugins.essentialX.event.Event
-import plugins.essentialX.event.SetEventArgs
-import plugins.essentialX.event.SetEventPath
+import plugins.essentialX.event.*
+import java.util.Objects
 
 class DisplayBoard() : EssentialXPlugin(SetEventPath) {
     override fun init() {
@@ -18,6 +17,32 @@ class DisplayBoard() : EssentialXPlugin(SetEventPath) {
     }
 
     override fun onEvent(event: Event) {
-        (event.getArgs() as SetEventArgs).board.also { display(it) }
+        val e = event
+        event.recall(
+            object : Event {
+                override fun recall(event: Event) {
+                    e.recall(event)
+                }
+
+                override fun getType(): EventType {
+                    return EventType.CustomerEvent
+                }
+
+                override fun getArgs(): Any {
+                    return "Hello World"
+                }
+
+                override fun getPath(): String {
+                    return ListenerAllPath
+                }
+
+                override fun toString(): String {
+                    return getArgs().toString()
+                }
+            }
+        )
+        (event.getArgs() as SetEventArgs).board.also {
+            display(it)
+        }
     }
 }

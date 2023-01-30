@@ -4,27 +4,6 @@
     "plugins.Essentials"
   ],
   "EssentialXPlugins": [
-    {
-      "PluginName": "plugins.essentialX.DisplayBoard",
-      "Args": {}
-    },
-    {
-      "PluginName": "plugins.essentialX.DropAlert",
-      "Args": {}
-    },
-    {
-      "PluginName": "plugins.essentialX.SettingChecker",
-      "Args": {}
-    },
-    {
-      "PluginName": "plugins.essentialX.RoundController",
-      "Args": {
-        "FirstPlayer": "Black"
-      }
-    },
-    {
-      "PluginName": "plugins.essentialX.observerPattern.EventQueueEssentialPluginAdapter",
-      "Args": {}
-    }
+    "plugins.essentialX.EventPrinter"
   ]
 }

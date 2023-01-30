@@ -20,4 +20,9 @@ abstract class BaseEvent<ArgType : Any>(
     override fun getPath(): String {
         return path
     }
+
+    override fun toString(): String {
+        return "${this.javaClass.simpleName}(type=$type, args=$args, path='$path')"
+    }
+
 }

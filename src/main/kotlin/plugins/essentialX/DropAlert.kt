@@ -18,7 +18,7 @@ class DropAlert : EssentialXPlugin(SetEventPath) {
         }
     }
 
-    fun alert(x: Int, y: Int, player: PlayerType) {
+    private fun alert(x: Int, y: Int, player: PlayerType) {
         println("[Alert] The player ${player.name} drop on $x,$y")
     }
 }

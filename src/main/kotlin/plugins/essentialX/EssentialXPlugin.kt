@@ -16,15 +16,20 @@ abstract class EssentialXPlugin(listeningPath: String = rootPath) {
 
     private val path = Path(listeningPath)
 
-    fun getPath(): Path {
-        return path
-    }
-
     abstract fun init()
+
+    abstract fun onEvent(event: Event)
+
+    open fun registerCustomerPath(): List<String> {
+        return listOf()
+    }
 
     open fun getEssentialXPluginType(): EssentialXPluginType {
         return EssentialXPluginType.Plugin
     }
 
-    abstract fun onEvent(event: Event)
+    fun getPath(): Path {
+        return path
+    }
+
 }

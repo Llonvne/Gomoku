@@ -15,13 +15,13 @@ import plugins.essentialX.observerPattern.Observable
 import plugins.essentialX.observerPattern.Observer
 import plugins.essentialX.path.next
 import java.nio.file.Path
+import java.util.EventListener
 import kotlin.io.path.Path
 import kotlin.io.path.pathString
 
 class Essentials : BoardXPlugin {
 
     private var essentialsPlugins: MutableList<EssentialXPlugin> = mutableListOf(
-        DisplayBoard(), DropAlert()
     )
 
     private val map: MutableMap<Path, Observable<Event>> = mutableMapOf()
@@ -36,14 +36,14 @@ class Essentials : BoardXPlugin {
         return NormalPriority
     }
 
-    private fun buildTree(obj: JsonObject?, map: MutableMap<Path, Observable<Event>>, fatherPath: Path) {
+    private fun buildPathTree(obj: JsonObject?, map: MutableMap<Path, Observable<Event>>, fatherPath: Path) {
         if (obj != null) {
             for (key in obj.keys) {
                 val newPath = "${fatherPath.pathString}/$key"
                 map[Path(newPath)] = Observable()
                 val value: JsonObject? = obj[key]?.jsonObject
                 if (value != null) {
-                    buildTree(value, map, Path(newPath))
+                    buildPathTree(value, map, Path(newPath))
                 }
             }
         }
@@ -51,14 +51,24 @@ class Essentials : BoardXPlugin {
 
     override fun init(board: BoardX) {
 
+        this.essentialsPlugins.addAll(loadEssentialX())
+
         var pathMap: JsonObject? = plugins.essentialX.path.load()
 
         pathMap = next(pathMap!!, "PathStructure")
 
-        buildTree(pathMap, map, Path(rootPath))
+        buildPathTree(pathMap, map, Path(rootPath))
 
 
         essentialsPlugins.forEach {
+            it.init()
+
+            val pluginPath = Path(PluginBasePath + it.javaClass.simpleName)
+            map[pluginPath] = Observable()
+            for (p in it.registerCustomerPath()) {
+                map[Path(pluginPath.pathString + pathSpliterator + p)] = Observable()
+            }
+
             val observable = map[it.getPath()]
             if (observable == null) {
                 println("${it.javaClass.simpleName} 插件的路径 ${it.getPath()} 并不存在")
@@ -73,16 +83,23 @@ class Essentials : BoardXPlugin {
         }
 
         map[Path(rootPath)] = Observable()
-
     }
 
     private fun sendEvent(event: Event) {
-        if (map[Path(event.getPath())] == null) {
-            println("${event.getPath()} 不存在，事件发送失败")
-        } else {
-            println("${event.getType()} 发送成功，路径为 ${event.getPath()}")
+        val target = map[Path(event.getPath())]
+        if (target != null) {
+            // 通知对应路径 Path
             map[Path(event.getPath())]?.notifyObservers(event)
+
+            // 通知 success
+            map[Path(ListenerSuccessPath)]!!.notifyObservers(event)
+        } else {
+            map[Path(ListenerFailurePath)]!!.notifyObservers(event)
         }
+
+        // 通知 All
+        map[Path(ListenerAllPath)]!!.notifyObservers(event)
+
     }
 
     override fun onGet(x: Int, y: Int, board: BoardX) {

@@ -26,23 +26,14 @@ fun load(): MutableList<BoardXPlugin> {
 
 fun Essentials.loadEssentialX(): MutableList<EssentialXPlugin> {
     return try {
-
         Json.parseToJsonElement(readFileToString(PluginConfigPath))
-            .jsonObject["EssentialXPlugins"]!!.jsonArray.map { it.jsonObject }
-            .map {
-                val clsName = it["PluginName"]?.str()!!
-                val cls = getKClassFromName(clsName)
-                val superTypesString = getSuperTypesName(cls)
-                if (!superTypesString.contains(EssentialXPlugin::class.simpleName)) {
-                    throw RuntimeException("./config/plugins.json 包含非 ${EssentialXPlugin::class.simpleName} 插件 : $clsName")
-                }
-                val obj = cls.primaryConstructor?.call(
-                    it["Args"]?.jsonObject
-                ) as EssentialXPlugin
-                obj.essentials = this
-                obj
-            }.toMutableList()
-
+            .jsonObject["EssentialXPlugins"]!!.jsonArray.map { it.str() }.map { clsName ->
+            val cls = getKClassFromName(clsName)
+            if (!getSuperTypesName(cls).contains("plugins.essentialX.EssentialXPlugin")) {
+                throw RuntimeException("./config/plugins.json 包含非 plugins.essentialX.EssentialXPlugin 插件 : $clsName")
+            }
+            return@map cls.primaryConstructor?.call() as EssentialXPlugin
+        }.toMutableList()
     } catch (e: Exception) {
         throw e
     }

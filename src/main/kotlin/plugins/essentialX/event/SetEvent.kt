@@ -8,7 +8,13 @@ class SetEventArgs(
     val y: Int,
     val playerType: PlayerType,
     val board: BoardX
-)
+
+
+) {
+    override fun toString(): String {
+        return "SetEventArgs(x=$x, y=$y, playerType=$playerType)"
+    }
+}
 
 open class SetEvent(args: SetEventArgs, sender: (Event) -> Unit) :
     BaseEvent<SetEventArgs>(sender, EventType.SetEvent, args, SetEventPath) {
