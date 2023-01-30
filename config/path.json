@@ -1,0 +1,14 @@
+{
+  "rootPathName": "/",
+  "PathStructure": {
+    "Game": {
+      "GetEvent": {},
+      "SetEvent": {},
+      "BeforeSetEvent": {},
+      "CreateEvent": {},
+      "OverEvent": {}
+    },
+    "public": {
+    }
+  }
+}

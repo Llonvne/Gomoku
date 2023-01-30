@@ -3,8 +3,8 @@ package plugins.essentialX
 import plugins.Essentials
 import plugins.essentialX.event.Event
 import plugins.essentialX.event.rootPath
-import plugins.essentialX.path.URL
-import plugins.essentialX.path.URLImpl
+import java.nio.file.Path
+import kotlin.io.path.Path
 
 
 enum class EssentialXPluginType {
@@ -13,12 +13,12 @@ enum class EssentialXPluginType {
 
 abstract class EssentialXPlugin(listeningPath: String = rootPath) {
     lateinit var essentials: Essentials
-    private val listeningURL = URLImpl(listeningPath)
 
-    fun getListeningUrl(): URL {
-        return listeningURL
+    private val path = Path(listeningPath)
+
+    fun getPath(): Path {
+        return path
     }
-
 
     abstract fun init()
 

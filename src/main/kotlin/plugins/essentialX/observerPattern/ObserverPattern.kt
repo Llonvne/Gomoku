@@ -1,11 +1,14 @@
 package plugins.essentialX.observerPattern
 
+import plugins.essentialX.event.Event
+import java.net.URL
+import kotlin.io.path.Path
+
 interface Observer<E> {
-    fun getName(): String
     fun update(value: E)
 }
 
-open class Observable<E>(val name: String) {
+open class Observable<E> {
     private val observers: MutableList<Observer<E>> = mutableListOf()
 
     fun notifyObservers(value: E) {
@@ -25,11 +28,8 @@ open class Observable<E>(val name: String) {
     }
 }
 
-class Transfer<E>(name: String) : Observable<E>(name) {
+class Transfer<E> : Observable<E>() {
     private val observer = object : Observer<E> {
-        override fun getName(): String {
-            return name
-        }
 
         override fun update(value: E) {
             notifyObservers(value)

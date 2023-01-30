@@ -9,6 +9,9 @@ import plugins.essentialX.DisplayBoard
 import plugins.essentialX.EssentialXPlugin
 import plugins.essentialX.event.*
 import plugins.essentialX.observerPattern.Observable
+import plugins.essentialX.observerPattern.Observer
+import java.nio.file.Path
+import kotlin.io.path.Path
 
 class Essentials : BoardXPlugin {
 
@@ -16,9 +19,9 @@ class Essentials : BoardXPlugin {
         DisplayBoard()
     )
 
-    private var observable: Observable<Event> = Observable("/")
+    private val map: MutableMap<Path, Observable<Event>> = mutableMapOf()
 
-    private var sender = observable::notifyObservers
+    private var sender = this::sendEvent
 
     override fun getPluginType(): BoardXPluginType {
         return BoardXPluginType.SystemPlug
@@ -29,12 +32,30 @@ class Essentials : BoardXPlugin {
     }
 
     override fun init(board: BoardX) {
-        essentialsPlugins.forEach { it.init() }
+
+        val pathMap = plugins.essentialX.path.load()
+
+        essentialsPlugins.forEach {}
+
+        map[Path(rootPath)] = Observable()
+
+        map[Path(rootPath)]?.addObserver(
+            object :Observer<Event>{
+                override fun update(value: Event) {
+                    println("Event ${value.getType()}")
+                }
+            }
+        )
     }
 
     private fun sendEvent(event: Event) {
-        println("[Event] ${event.getType().name}")
-        sender(event)
+//        if (map[Path(event.getPath())] == null){
+//            println("${event.getPath()} 不存在，事件发送失败")
+//        }
+//        else {
+//            println("事件发送成功")
+//            map[Path(event.getPath())]?.notifyObservers(event)
+//        }
     }
 
     override fun onGet(x: Int, y: Int, board: BoardX) {
