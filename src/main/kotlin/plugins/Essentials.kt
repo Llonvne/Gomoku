@@ -52,6 +52,8 @@ class Essentials : BoardXPlugin {
 
     override fun init(board: BoardX) {
 
+        m[Path(rootPath)] = Observable()
+
         this.essentialsPlugins.addAll(loadEssentialX())
 
         var pathMap: JsonObject? = plugins.essentialX.path.load()
@@ -73,7 +75,7 @@ class Essentials : BoardXPlugin {
             for (path: String in it.getPath()) {
                 val observable = m[Path(path)]
                 if (observable == null) {
-                    println("${it.javaClass.simpleName} 插件的路径 ${path} 并不存在")
+                    println("${it.javaClass.simpleName} 插件的路径 $path 并不存在")
                 }
                 observable?.addObserver(
                     object : Observer<Event> {
@@ -84,8 +86,6 @@ class Essentials : BoardXPlugin {
                 )
             }
         }
-
-        m[Path(rootPath)] = Observable()
     }
 
     override fun onGet(x: Int, y: Int, board: BoardX) {

@@ -12,7 +12,7 @@ interface Event {
 }
 
 enum class EventType {
-    GetEvent, SetEvent, BeforeSetEvent, CreateEvent, OverEvent, CustomerEvent
+    GetEvent, SetEvent, BeforeSetEvent, CreateEvent, OverEvent, ConnectorEvent, CustomerEvent
 }
 
 typealias Sender = (Event) -> Unit
@@ -22,6 +22,9 @@ const val pathSpliterator = "/"
 
 const val InGameEventPath = rootPath + "Game" + pathSpliterator
 const val PluginBasePath = rootPath + "Plugin" + pathSpliterator
+
+const val ConnectorPath = PluginBasePath + "InputService" + pathSpliterator
+
 const val ListenerPath = rootPath + "Listener" + pathSpliterator
 const val ListenerAllPath = ListenerPath + "All" + pathSpliterator
 const val ListenerSuccessPath = ListenerPath + "Success" + pathSpliterator

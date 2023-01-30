@@ -4,7 +4,10 @@
     "plugins.Essentials"
   ],
   "EssentialXPlugins": [
+    "plugins.essentialX.EventPrinter",
+    "plugins.essentialX.io.InputService",
     "plugins.essentialX.DisplayBoard",
-    "plugins.essentialX.DropAlert"
+    "plugins.essentialX.DropAlert",
+    "plugins.essentialX.io.CommandLineConnector"
   ]
 }

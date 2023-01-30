@@ -35,11 +35,20 @@ class BoardX(
         return board.direct()
     }
 
-    private fun toPlayerType(pointType: PointType): PlayerType {
-        return when (pointType) {
-            Black -> PlayerType.Black
-            White -> PlayerType.White
-            Empty -> throw IllegalArgumentException("无法将 board.PointType.Empty 转换为 board.PlayerType")
+    companion object {
+        fun toPlayerType(pointType: PointType): PlayerType {
+            return when (pointType) {
+                Black -> PlayerType.Black
+                White -> PlayerType.White
+                Empty -> throw IllegalArgumentException("无法将 board.PointType.Empty 转换为 board.PlayerType")
+            }
+        }
+
+        fun toPointType(playerType: PlayerType): PointType {
+            return when (playerType) {
+                PlayerType.Black -> Black
+                PlayerType.White -> White
+            }
         }
     }
 }
