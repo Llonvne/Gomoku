@@ -5,10 +5,13 @@ import plugins.essentialX.event.Event
 import plugins.essentialX.event.SetEvent
 import plugins.essentialX.event.SetEventArgs
 import plugins.essentialX.event.SetEventPath
+import plugins.essentialX.observerPattern.Observer
+import java.nio.file.Path
 
 class DropAlert : EssentialXPlugin(SetEventPath) {
 
-    override fun init() {
+    override fun init(addObserver: (Observer<Event>) -> Unit, observerPath: Path) {
+
     }
 
     override fun onEvent(event: Event) {

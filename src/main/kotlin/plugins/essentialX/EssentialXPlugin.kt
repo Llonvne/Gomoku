@@ -1,8 +1,8 @@
 package plugins.essentialX
 
-import plugins.Essentials
 import plugins.essentialX.event.Event
 import plugins.essentialX.event.rootPath
+import plugins.essentialX.observerPattern.Observer
 import java.nio.file.Path
 import kotlin.io.path.Path
 
@@ -12,11 +12,11 @@ enum class EssentialXPluginType {
 }
 
 abstract class EssentialXPlugin(listeningPath: String = rootPath) {
-    lateinit var essentials: Essentials
 
     private val path = Path(listeningPath)
 
-    abstract fun init()
+    open fun init(addObserver: (Observer<Event>) -> Unit, observerPath: Path) {
+    }
 
     abstract fun onEvent(event: Event)
 

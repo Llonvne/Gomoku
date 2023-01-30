@@ -8,7 +8,7 @@ import boardx.NormalPriority
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import plugins.essentialX.EssentialXPlugin
-import plugins.essentialX.EventQueue
+import plugins.essentialX.event.EventQueue
 import plugins.essentialX.event.*
 import plugins.essentialX.observerPattern.Observable
 import plugins.essentialX.observerPattern.Observer
@@ -19,15 +19,14 @@ import kotlin.io.path.pathString
 
 class Essentials : BoardXPlugin {
 
-    private var essentialsPlugins: MutableList<EssentialXPlugin> = mutableListOf(
-    )
+    private val essentialsPlugins: MutableList<EssentialXPlugin> = mutableListOf()
 
     private val map: MutableMap<Path, Observable<Event>> = mutableMapOf()
 
-    private var sender: (Event) -> Any = EventQueue(map).inQueueFunc()
+    private var sender: EventPriorityQueue = EventQueue(map)
 
     private fun sendEvent(event: Event) {
-        sender(event)
+        sender.enQueueFun(event)
     }
 
     override fun getPluginType(): BoardXPluginType {
@@ -63,14 +62,13 @@ class Essentials : BoardXPlugin {
 
 
         essentialsPlugins.forEach {
-            it.init()
-
             val pluginPath = Path(PluginBasePath + it.javaClass.simpleName)
-            map[pluginPath] = Observable()
+            val ob = Observable<Event>()
+            map[pluginPath] = ob
+            it.init(ob::addObserver, pluginPath)
             for (p in it.registerCustomerPath()) {
                 map[Path(pluginPath.pathString + pathSpliterator + p)] = Observable()
             }
-
             val observable = map[it.getPath()]
             if (observable == null) {
                 println("${it.javaClass.simpleName} 插件的路径 ${it.getPath()} 并不存在")
@@ -86,22 +84,6 @@ class Essentials : BoardXPlugin {
 
         map[Path(rootPath)] = Observable()
     }
-
-//    private fun sendEvent(event: Event) {
-//        val target = map[Path(event.getPath())]
-//
-//        // 通知 All
-//        map[Path(ListenerAllPath)]!!.notifyObservers(event)
-//
-//        if (target != null) {
-//            // 通知 success
-//            map[Path(ListenerSuccessPath)]!!.notifyObservers(event)
-//            // 通知对应路径 Path
-//            map[Path(event.getPath())]?.notifyObservers(event)
-//        } else {
-//            map[Path(ListenerFailurePath)]!!.notifyObservers(event)
-//        }
-//    }
 
     override fun onGet(x: Int, y: Int, board: BoardX) {
         sendEvent(

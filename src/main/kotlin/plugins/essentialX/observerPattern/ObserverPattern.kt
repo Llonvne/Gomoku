@@ -23,16 +23,3 @@ open class Observable<E> {
         this.observers.clear()
     }
 }
-
-class Transfer<E> : Observable<E>() {
-    private val observer = object : Observer<E> {
-
-        override fun update(value: E) {
-            notifyObservers(value)
-        }
-    }
-
-    fun getObserver(): Observer<E> {
-        return observer
-    }
-}

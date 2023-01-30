@@ -1,15 +1,15 @@
-package plugins.essentialX
+package plugins.essentialX.event
 
-import plugins.essentialX.event.Event
-import plugins.essentialX.event.ListenerAllPath
-import plugins.essentialX.event.ListenerFailurePath
-import plugins.essentialX.event.ListenerSuccessPath
 import plugins.essentialX.observerPattern.Observable
 import java.nio.file.Path
 import java.util.concurrent.PriorityBlockingQueue
 import kotlin.io.path.Path
 
-class EventQueue(private val map: MutableMap<Path, Observable<Event>>) {
+interface EventPriorityQueue {
+    fun enQueueFun(event: Event)
+}
+
+class EventQueue(private val map: MutableMap<Path, Observable<Event>>) : EventPriorityQueue {
     private val queue = PriorityBlockingQueue<Event>(
         1000
     ) { o1, o2 -> return@PriorityBlockingQueue o1.getPriority().compareTo(o2.getPriority()) }
@@ -40,7 +40,7 @@ class EventQueue(private val map: MutableMap<Path, Observable<Event>>) {
         processThread.start()
     }
 
-    fun inQueueFunc(): (Event) -> Unit {
-        return queue::put
+    override fun enQueueFun(event: Event) {
+        queue.offer(event)
     }
 }

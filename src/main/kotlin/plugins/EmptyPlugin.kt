@@ -19,9 +19,6 @@ object EmptyPlugin : BoardXPlugin, EssentialXPlugin(rootPath) {
         return MinPriority
     }
 
-    override fun init() {
-    }
-
     override fun onEvent(event: Event) {
     }
 }

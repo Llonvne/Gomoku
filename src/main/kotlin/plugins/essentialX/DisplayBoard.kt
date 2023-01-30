@@ -4,10 +4,9 @@ import board.Board
 import board.PointType
 import boardx.NormalPriority
 import plugins.essentialX.event.*
+import plugins.essentialX.observerPattern.Observable
 
 class DisplayBoard : EssentialXPlugin(SetEventPath) {
-    override fun init() {
-    }
 
     private fun display(board: Board<PointType>) {
         board.direct().forEach { pointTypes ->
@@ -18,33 +17,6 @@ class DisplayBoard : EssentialXPlugin(SetEventPath) {
 
     override fun onEvent(event: Event) {
         val e = event
-        event.recall(
-            object : Event {
-                override fun recall(event: Event) {
-                    e.recall(event)
-                }
-
-                override fun getType(): EventType {
-                    return EventType.CustomerEvent
-                }
-
-                override fun getArgs(): Any {
-                    return "Hello World"
-                }
-
-                override fun getPath(): String {
-                    return ListenerAllPath
-                }
-
-                override fun toString(): String {
-                    return getArgs().toString()
-                }
-
-                override fun getPriority(): Int {
-                    return NormalPriority
-                }
-            }
-        )
         (event.getArgs() as SetEventArgs).board.also {
             display(it)
         }

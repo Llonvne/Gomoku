@@ -9,10 +9,10 @@ import boardx.BoardXPluginType.*
 import plugins.load
 
 class BoardX(
-    boardSize: Int, initialPluginList: MutableList<BoardXPlugin> = mutableListOf()
+    boardSize: Int
 ) : Board<PointType> {
 
-    var pluginList: MutableList<BoardXPlugin> = initialPluginList
+    var pluginList: MutableList<BoardXPlugin> = mutableListOf()
 
     private val board: Board<PointType>
     private val typedPlugins get() = pluginList.groupBy { it.getPluginType() }
@@ -20,25 +20,14 @@ class BoardX(
 
     init {
         board = BoardImpl(boardSize)
-
         pluginList.addAll(load())
-
         initialPlugin(SystemPlug)
-
         initialPlugin(CreatePlug)
-
         initialPlugin(RuntimePlug)
-
         initialPlugin(EndPlug)
-
-
-
         createPlugin(SystemPlug)
-
         createPlugin(CreatePlug)
-
         createPlugin(RuntimePlug)
-
         createPlugin(EndPlug)
     }
 
