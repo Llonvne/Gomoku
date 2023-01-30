@@ -87,19 +87,18 @@ class Essentials : BoardXPlugin {
 
     private fun sendEvent(event: Event) {
         val target = map[Path(event.getPath())]
-        if (target != null) {
-            // 通知对应路径 Path
-            map[Path(event.getPath())]?.notifyObservers(event)
-
-            // 通知 success
-            map[Path(ListenerSuccessPath)]!!.notifyObservers(event)
-        } else {
-            map[Path(ListenerFailurePath)]!!.notifyObservers(event)
-        }
 
         // 通知 All
         map[Path(ListenerAllPath)]!!.notifyObservers(event)
 
+        if (target != null) {
+            // 通知 success
+            map[Path(ListenerSuccessPath)]!!.notifyObservers(event)
+            // 通知对应路径 Path
+            map[Path(event.getPath())]?.notifyObservers(event)
+        } else {
+            map[Path(ListenerFailurePath)]!!.notifyObservers(event)
+        }
     }
 
     override fun onGet(x: Int, y: Int, board: BoardX) {

@@ -9,6 +9,8 @@ interface Event {
     fun getArgs(): Any
 
     fun getPath(): String
+
+    fun getPriority(): Int
 }
 
 enum class EventType {

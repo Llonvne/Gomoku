@@ -1,5 +1,7 @@
 package plugins.essentialX.event
 
+import boardx.NormalPriority
+
 abstract class BaseEvent<ArgType : Any>(
     private val sender: (Event) -> Unit, private val type: EventType,
     private val args: ArgType, private val path: String
@@ -25,4 +27,7 @@ abstract class BaseEvent<ArgType : Any>(
         return "${this.javaClass.simpleName}(type=$type, args=$args, path='$path')"
     }
 
+    override fun getPriority(): Int {
+        return NormalPriority
+    }
 }
