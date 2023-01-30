@@ -34,7 +34,7 @@ class BoardX(
 
     private fun initialPlugin(type: BoardXPluginType) {
         getTypedSortedPluginList(type).forEach {
-            println("[Plugin Loader] ${it.javaClass.simpleName} loading ...")
+//            println("[Plugin Loader] ${it.javaClass.simpleName} loading ...")
             it.init(this)
         }
     }

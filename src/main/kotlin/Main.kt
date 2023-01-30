@@ -1,5 +1,6 @@
 import board.PointType
 import boardx.BoardX
+import kotlin.system.exitProcess
 
 fun main() {
     val b = BoardX(5)

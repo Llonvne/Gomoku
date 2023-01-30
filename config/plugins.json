@@ -4,8 +4,7 @@
     "plugins.Essentials"
   ],
   "EssentialXPlugins": [
-    "plugins.essentialX.EventPrinter",
-    "plugins.essentialX.DropAlert"
-
+    "plugins.essentialX.DropAlert",
+    "plugins.essentialX.DisplayBoard"
   ]
 }
