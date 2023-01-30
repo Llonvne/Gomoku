@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-ear" name="GomokuServer">
-    <output-path>$PROJECT_DIR$/out/artifacts/GomokuServer</output-path>
-    <root id="root" />
-  </artifact>
-</component>

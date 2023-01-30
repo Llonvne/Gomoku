@@ -36,6 +36,7 @@ class EventPriorityQueueImpl(private val map: MutableMap<Path, Observable<Event>
     }
 
     init {
+        processThread.isDaemon = true
         processThread.start()
     }
 
