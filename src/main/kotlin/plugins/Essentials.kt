@@ -7,15 +7,13 @@ import boardx.BoardXPluginType
 import boardx.NormalPriority
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
-import plugins.essentialX.DisplayBoard
-import plugins.essentialX.DropAlert
 import plugins.essentialX.EssentialXPlugin
+import plugins.essentialX.EventQueue
 import plugins.essentialX.event.*
 import plugins.essentialX.observerPattern.Observable
 import plugins.essentialX.observerPattern.Observer
 import plugins.essentialX.path.next
 import java.nio.file.Path
-import java.util.EventListener
 import kotlin.io.path.Path
 import kotlin.io.path.pathString
 
@@ -26,7 +24,11 @@ class Essentials : BoardXPlugin {
 
     private val map: MutableMap<Path, Observable<Event>> = mutableMapOf()
 
-    private var sender = this::sendEvent
+    private var sender: (Event) -> Any = EventQueue(map).inQueueFunc()
+
+    private fun sendEvent(event: Event) {
+        sender(event)
+    }
 
     override fun getPluginType(): BoardXPluginType {
         return BoardXPluginType.SystemPlug
@@ -85,26 +87,26 @@ class Essentials : BoardXPlugin {
         map[Path(rootPath)] = Observable()
     }
 
-    private fun sendEvent(event: Event) {
-        val target = map[Path(event.getPath())]
-
-        // 通知 All
-        map[Path(ListenerAllPath)]!!.notifyObservers(event)
-
-        if (target != null) {
-            // 通知 success
-            map[Path(ListenerSuccessPath)]!!.notifyObservers(event)
-            // 通知对应路径 Path
-            map[Path(event.getPath())]?.notifyObservers(event)
-        } else {
-            map[Path(ListenerFailurePath)]!!.notifyObservers(event)
-        }
-    }
+//    private fun sendEvent(event: Event) {
+//        val target = map[Path(event.getPath())]
+//
+//        // 通知 All
+//        map[Path(ListenerAllPath)]!!.notifyObservers(event)
+//
+//        if (target != null) {
+//            // 通知 success
+//            map[Path(ListenerSuccessPath)]!!.notifyObservers(event)
+//            // 通知对应路径 Path
+//            map[Path(event.getPath())]?.notifyObservers(event)
+//        } else {
+//            map[Path(ListenerFailurePath)]!!.notifyObservers(event)
+//        }
+//    }
 
     override fun onGet(x: Int, y: Int, board: BoardX) {
         sendEvent(
             GetEvent(
-                GetEventArgs(x, y, board), sender
+                GetEventArgs(x, y, board), this::sendEvent
             )
         )
     }
@@ -112,21 +114,21 @@ class Essentials : BoardXPlugin {
     override fun onSet(x: Int, y: Int, player: PlayerType, board: BoardX) {
         sendEvent(
             SetEvent(
-                SetEventArgs(x, y, player, board), sender
+                SetEventArgs(x, y, player, board), this::sendEvent
             )
         )
     }
 
     override fun onCreate(board: BoardX) {
         sendEvent(
-            CreateEvent(CreateEventArgs(board), sender)
+            CreateEvent(CreateEventArgs(board), this::sendEvent)
         )
     }
 
     override fun onOver(winner: PlayerType, board: BoardX) {
         sendEvent(
             OverEvent(
-                OverEventArg(winner, board), sender
+                OverEventArg(winner, board), this::sendEvent
             )
         )
     }
@@ -134,7 +136,7 @@ class Essentials : BoardXPlugin {
     override fun beforeSetting(x: Int, y: Int, player: PlayerType, board: BoardX) {
         sendEvent(
             BeforeSetEvent(
-                SetEventArgs(x, y, player, board), sender
+                SetEventArgs(x, y, player, board), this::sendEvent
             )
         )
     }
