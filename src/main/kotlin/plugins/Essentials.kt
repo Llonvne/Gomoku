@@ -65,7 +65,7 @@ class Essentials : BoardXPlugin {
             val pluginPath = Path(PluginBasePath + it.javaClass.simpleName)
             val ob = Observable<Event>()
             m[pluginPath] = ob
-            it.init(ob::addObserver, pluginPath)
+            it.init(ob::addObserver, pluginPath, this::sendEvent, board)
             for (p in it.registerCustomerPath()) {
                 m[Path(pluginPath.pathString + pathSpliterator + p)] = Observable()
             }
@@ -91,7 +91,7 @@ class Essentials : BoardXPlugin {
     override fun onGet(x: Int, y: Int, board: BoardX) {
         sendEvent(
             GetEvent(
-                GetEventArgs(x, y, board), this::sendEvent
+                GetEventArgs(x, y)
             )
         )
     }
@@ -99,21 +99,21 @@ class Essentials : BoardXPlugin {
     override fun onSet(x: Int, y: Int, player: PlayerType, board: BoardX) {
         sendEvent(
             SetEvent(
-                SetEventArgs(x, y, player, board), this::sendEvent
+                SetEventArgs(x, y, player)
             )
         )
     }
 
     override fun onCreate(board: BoardX) {
         sendEvent(
-            CreateEvent(CreateEventArgs(board), this::sendEvent)
+            CreateEvent(CreateEventArgs())
         )
     }
 
     override fun onOver(winner: PlayerType, board: BoardX) {
         sendEvent(
             OverEvent(
-                OverEventArg(winner, board), this::sendEvent
+                OverEventArg(winner)
             )
         )
     }
@@ -121,7 +121,7 @@ class Essentials : BoardXPlugin {
     override fun beforeSetting(x: Int, y: Int, player: PlayerType, board: BoardX) {
         sendEvent(
             BeforeSetEvent(
-                SetEventArgs(x, y, player, board), this::sendEvent
+                SetEventArgs(x, y, player)
             )
         )
     }

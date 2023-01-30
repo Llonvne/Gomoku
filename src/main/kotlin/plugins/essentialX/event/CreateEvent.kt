@@ -3,7 +3,6 @@ package plugins.essentialX.event
 import boardx.BoardX
 
 class CreateEventArgs(
-    val board: BoardX
 
 ) {
     override fun toString(): String {
@@ -11,7 +10,6 @@ class CreateEventArgs(
     }
 }
 
-class CreateEvent(args: CreateEventArgs, sender: (Event) -> Unit) : BaseEvent<CreateEventArgs>(
-    sender, EventType.CreateEvent, args,
-    CreateEventPath
+class CreateEvent(args: CreateEventArgs) : BaseEvent<CreateEventArgs>(
+    EventType.CreateEvent, args, CreateEventPath
 )

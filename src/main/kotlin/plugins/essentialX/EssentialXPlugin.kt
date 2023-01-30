@@ -1,10 +1,10 @@
 package plugins.essentialX
 
+import boardx.BoardX
 import plugins.essentialX.event.Event
 import plugins.essentialX.event.rootPath
 import plugins.essentialX.observerPattern.Observer
 import java.nio.file.Path
-import kotlin.io.path.Path
 
 
 enum class EssentialXPluginType {
@@ -17,7 +17,7 @@ abstract class EssentialXPlugin(listeningPaths: List<String> = listOf(rootPath))
 
     private val path = listeningPaths
 
-    open fun init(addObserver: (Observer<Event>) -> Unit, observerPath: Path) {
+    open fun init(addObserver: (Observer<Event>) -> Unit, observerPath: Path, sender: (Event) -> Unit, board: BoardX) {
     }
 
     abstract fun onEvent(event: Event)

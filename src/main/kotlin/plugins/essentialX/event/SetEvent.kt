@@ -7,19 +7,16 @@ class SetEventArgs(
     val x: Int,
     val y: Int,
     val playerType: PlayerType,
-    val board: BoardX
-
-
 ) {
     override fun toString(): String {
         return "SetEventArgs(x=$x, y=$y, playerType=$playerType)"
     }
 }
 
-open class SetEvent(args: SetEventArgs, sender: (Event) -> Unit) :
-    BaseEvent<SetEventArgs>(sender, EventType.SetEvent, args, SetEventPath)
+open class SetEvent(args: SetEventArgs) :
+    BaseEvent<SetEventArgs>(EventType.SetEvent, args, SetEventPath)
 
-class BeforeSetEvent(args: SetEventArgs, sender: (Event) -> Unit) : SetEvent(args, sender) {
+class BeforeSetEvent(args: SetEventArgs) : SetEvent(args) {
     override fun getType(): EventType {
         return EventType.BeforeSetEvent
     }

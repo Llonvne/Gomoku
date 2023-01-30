@@ -2,8 +2,6 @@ package plugins.essentialX.event
 
 
 interface Event {
-    fun recall(event: Event)
-
     fun getType(): EventType
 
     fun getArgs(): Any
@@ -16,6 +14,8 @@ interface Event {
 enum class EventType {
     GetEvent, SetEvent, BeforeSetEvent, CreateEvent, OverEvent, CustomerEvent
 }
+
+typealias Sender = (Event) -> Unit
 
 const val rootPath = "/"
 const val pathSpliterator = "/"
@@ -32,3 +32,5 @@ const val SetEventPath = InGameEventPath + "SetEvent"
 const val BeforeSetEventPath = InGameEventPath + "BeforeSetEvent"
 const val CreateEventPath = InGameEventPath + "CreateEvent"
 const val OverEventPath = InGameEventPath + "OverEvent"
+val AllInGameEventList =
+    listOf(GetEventPath, SetEventPath, BeforeSetEventPath, SetEventPath, CreateEventPath, OverEventPath)

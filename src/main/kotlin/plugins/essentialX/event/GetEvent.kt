@@ -5,8 +5,6 @@ import boardx.BoardX
 class GetEventArgs(
     val x: Int,
     val y: Int,
-    val board: BoardX
-
 ) {
     override fun toString(): String {
         return "GetEventArgs(x=$x, y=$y)"
@@ -14,5 +12,5 @@ class GetEventArgs(
 }
 
 
-class GetEvent(args: GetEventArgs, sender: (Event) -> Unit) :
-    BaseEvent<GetEventArgs>(sender, EventType.GetEvent, args, GetEventPath)
+class GetEvent(args: GetEventArgs) :
+    BaseEvent<GetEventArgs>(EventType.GetEvent, args, GetEventPath)

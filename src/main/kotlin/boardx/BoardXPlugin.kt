@@ -11,22 +11,12 @@ const val MinPriority = 0
 const val NormalPriority = (MaxPriority + MinPriority) / 2
 
 interface BoardXPlugin {
-
     fun getPluginType(): BoardXPluginType
-
     fun getPluginPriority(): Int
     fun init(board: BoardX) {}
-
     fun onGet(x: Int, y: Int, board: BoardX) {}
-
-    fun onSet(x: Int, y: Int, player: PlayerType, board: BoardX) {
-    }
-
+    fun onSet(x: Int, y: Int, player: PlayerType, board: BoardX) {}
     fun onCreate(board: BoardX) {}
-
-    fun onOver(winner: PlayerType, board: BoardX) {
-    }
-
-    fun beforeSetting(x: Int, y: Int, player: PlayerType, board: BoardX) {
-    }
+    fun onOver(winner: PlayerType, board: BoardX) {}
+    fun beforeSetting(x: Int, y: Int, player: PlayerType, board: BoardX) {}
 }

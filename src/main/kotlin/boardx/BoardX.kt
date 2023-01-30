@@ -12,9 +12,7 @@ class BoardX(
 ) : Board<PointType> {
 
     var pluginList: MutableList<BoardXPlugin>
-
     private val board: Board<PointType>
-
 
     init {
         board = BoardImpl(boardSize)
