@@ -17,8 +17,7 @@ class SetEventArgs(
 }
 
 open class SetEvent(args: SetEventArgs, sender: (Event) -> Unit) :
-    BaseEvent<SetEventArgs>(sender, EventType.SetEvent, args, SetEventPath) {
-}
+    BaseEvent<SetEventArgs>(sender, EventType.SetEvent, args, SetEventPath)
 
 class BeforeSetEvent(args: SetEventArgs, sender: (Event) -> Unit) : SetEvent(args, sender) {
     override fun getType(): EventType {

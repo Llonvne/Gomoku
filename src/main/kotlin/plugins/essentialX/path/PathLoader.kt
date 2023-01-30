@@ -1,9 +1,9 @@
 package plugins.essentialX.path
 
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonObject
 import java.io.File
-import kotlinx.serialization.json.*
-import kotlin.io.path.Path
-import kotlin.io.path.name
 
 const val pathJson = "./config/path.json"
 

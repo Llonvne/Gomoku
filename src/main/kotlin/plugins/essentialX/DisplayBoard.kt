@@ -2,10 +2,10 @@ package plugins.essentialX
 
 import board.Board
 import board.PointType
+import boardx.NormalPriority
 import plugins.essentialX.event.*
-import java.util.Objects
 
-class DisplayBoard() : EssentialXPlugin(SetEventPath) {
+class DisplayBoard : EssentialXPlugin(SetEventPath) {
     override fun init() {
     }
 
@@ -38,6 +38,10 @@ class DisplayBoard() : EssentialXPlugin(SetEventPath) {
 
                 override fun toString(): String {
                     return getArgs().toString()
+                }
+
+                override fun getPriority(): Int {
+                    return NormalPriority
                 }
             }
         )

@@ -1,9 +1,5 @@
 package plugins.essentialX.observerPattern
 
-import plugins.essentialX.event.Event
-import java.net.URL
-import kotlin.io.path.Path
-
 interface Observer<E> {
     fun update(value: E)
 }

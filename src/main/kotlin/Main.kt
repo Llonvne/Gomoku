@@ -1,13 +1,7 @@
 import board.PointType
 import boardx.BoardX
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonBuilder
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
-import kotlin.io.path.Path
-import kotlin.io.path.appendText
 
-fun main(args: Array<String>) {
+fun main() {
     val b = BoardX(
         5,
         mutableListOf()

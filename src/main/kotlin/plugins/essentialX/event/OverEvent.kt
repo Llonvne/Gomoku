@@ -14,5 +14,4 @@ data class OverEventArg(
 }
 
 class OverEvent(args: OverEventArg, sender: (Event) -> Unit) :
-    BaseEvent<OverEventArg>(sender, EventType.OverEvent, args, "") {
-}
+    BaseEvent<OverEventArg>(sender, EventType.OverEvent, args, "")

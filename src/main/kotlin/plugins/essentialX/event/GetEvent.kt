@@ -15,5 +15,4 @@ class GetEventArgs(
 
 
 class GetEvent(args: GetEventArgs, sender: (Event) -> Unit) :
-    BaseEvent<GetEventArgs>(sender, EventType.GetEvent, args, GetEventPath) {
-}
+    BaseEvent<GetEventArgs>(sender, EventType.GetEvent, args, GetEventPath)

@@ -24,7 +24,7 @@ fun load(): MutableList<BoardXPlugin> {
     }
 }
 
-fun Essentials.loadEssentialX(): MutableList<EssentialXPlugin> {
+fun loadEssentialX(): MutableList<EssentialXPlugin> {
     return try {
         Json.parseToJsonElement(readFileToString(PluginConfigPath))
             .jsonObject["EssentialXPlugins"]!!.jsonArray.map { it.str() }.map { clsName ->
