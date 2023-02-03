@@ -2,6 +2,7 @@ package plugins.essentialX
 
 import board.PlayerType
 import boardx.BoardX
+import plugins.essentialX.annotations.ListenerPath
 import plugins.essentialX.event.Event
 import plugins.essentialX.event.SetEvent
 import plugins.essentialX.event.SetEventArgs
@@ -9,7 +10,8 @@ import plugins.essentialX.event.SetEventPath
 import plugins.essentialX.observerPattern.Observer
 import java.nio.file.Path
 
-class DropAlert : EssentialXPlugin(SetEventPath) {
+@ListenerPath(SetEventPath)
+class DropAlert : EssentialXPlugin() {
 
     override fun init(
         addObserver: (Observer<Event>) -> Unit,

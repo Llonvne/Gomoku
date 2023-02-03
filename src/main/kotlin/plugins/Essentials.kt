@@ -8,14 +8,16 @@ import boardx.NormalPriority
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import plugins.essentialX.EssentialXPlugin
-import plugins.essentialX.event.EventPriorityQueueImpl
+import plugins.essentialX.annotations.ListenerPath
+import plugins.essentialX.annotations.extractPathFromListenerPathAnnotation
 import plugins.essentialX.event.*
 import plugins.essentialX.observerPattern.Observable
-import plugins.essentialX.observerPattern.Observer
 import plugins.essentialX.path.next
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.io.path.pathString
+import kotlin.reflect.KAnnotatedElement
+import kotlin.reflect.full.findAnnotations
 
 class Essentials : BoardXPlugin {
 
@@ -63,23 +65,41 @@ class Essentials : BoardXPlugin {
         buildPathTree(pathMap, m, Path(rootPath))
 
 
-        essentialsPlugins.forEach {
-            val pluginPath = Path(PluginBasePath + it.javaClass.simpleName)
+        essentialsPlugins.forEach { plugin ->
+
+            // 注册 PluginPath
+            val pluginPath = Path(PluginBasePath + plugin.javaClass.simpleName)
             val ob = Observable<Event>()
             m[pluginPath] = ob
-            it.init(ob::addObserver, pluginPath, this::sendEvent, board)
-            for (p in it.registerCustomerPath()) {
+
+            // 初始化插件
+            plugin.init(ob::addObserver, pluginPath, this::sendEvent, board)
+
+            // 注册插件自定义路径
+            for (p in plugin.registerCustomerPath()) {
                 m[Path(pluginPath.pathString + pathSpliterator + p)] = Observable()
             }
 
-            for (path: String in it.getPath()) {
-                val observable = m[Path(path)]
-                if (observable == null) {
-                    println("${it.javaClass.simpleName} 插件的路径 $path 并不存在")
+            val cls = plugin::class
+            val target = cls as KAnnotatedElement
+            target.findAnnotations<ListenerPath>().map { listenerPath ->
+                extractPathFromListenerPathAnnotation(listenerPath)
+            }.forEach { paths ->
+                paths.forEach { path ->
+                    addListenerToPath(plugin, path, m)
                 }
-                observable?.addObserver { value -> it.onEvent(value) }
             }
         }
+    }
+
+    private fun addListenerToPath(plugin: EssentialXPlugin, path: String, m: MutableMap<Path, Observable<Event>>) {
+        val observable = m[Path(path)]
+        if (observable == null) {
+            println("${plugin.javaClass.simpleName} 插件的路径 $path 并不存在")
+            return
+        }
+        println("Plugin ${plugin::class.simpleName} 监听路径 $path")
+        observable.addObserver { value -> plugin.onEvent(value) }
     }
 
     override fun onGet(x: Int, y: Int, board: BoardX) {

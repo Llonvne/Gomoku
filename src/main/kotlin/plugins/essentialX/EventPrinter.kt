@@ -1,13 +1,14 @@
 package plugins.essentialX
 
 import boardx.BoardX
+import plugins.essentialX.annotations.ListenerPath
 import plugins.essentialX.event.Event
 import plugins.essentialX.event.ListenerAllPath
 import plugins.essentialX.observerPattern.Observer
 import java.nio.file.Path
 
-@DefaultEnabled
-class EventPrinter : EssentialXPlugin(ListenerAllPath) {
+@ListenerPath(ListenerAllPath)
+class EventPrinter : EssentialXPlugin() {
 
     private lateinit var p: Path
     override fun init(

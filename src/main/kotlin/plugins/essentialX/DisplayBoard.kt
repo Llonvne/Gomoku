@@ -3,11 +3,15 @@ package plugins.essentialX
 import board.Board
 import board.PointType
 import boardx.BoardX
-import plugins.essentialX.event.*
+import plugins.essentialX.annotations.ListenerPath
+import plugins.essentialX.event.Event
+import plugins.essentialX.event.SetEvent
+import plugins.essentialX.event.SetEventPath
 import plugins.essentialX.observerPattern.Observer
 import java.nio.file.Path
 
-class DisplayBoard : EssentialXPlugin(listOf(SetEventPath)) {
+@ListenerPath(SetEventPath)
+class DisplayBoard : EssentialXPlugin() {
 
     private lateinit var board: BoardX
 

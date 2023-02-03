@@ -3,13 +3,15 @@ package plugins.essentialX.io
 import board.PlayerType
 import boardx.BoardX
 import plugins.essentialX.EssentialXPlugin
+import plugins.essentialX.annotations.ListenerPath
 import plugins.essentialX.event.ConnectorPath
 import plugins.essentialX.event.Event
 import plugins.essentialX.event.EventType
 import plugins.essentialX.observerPattern.Observer
 import java.nio.file.Path
 
-class CommandLineConnector : EssentialXPlugin(ConnectorPath) {
+@ListenerPath(ConnectorPath)
+class CommandLineConnector : EssentialXPlugin() {
 
     private lateinit var inputConnector: InputConnector
 
