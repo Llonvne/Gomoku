@@ -1,6 +1,6 @@
 package plugins.essentialX.observerPattern
 
-interface Observer<E> {
+fun interface Observer<E> {
     fun update(value: E)
 }
 

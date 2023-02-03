@@ -77,13 +77,7 @@ class Essentials : BoardXPlugin {
                 if (observable == null) {
                     println("${it.javaClass.simpleName} 插件的路径 $path 并不存在")
                 }
-                observable?.addObserver(
-                    object : Observer<Event> {
-                        override fun update(value: Event) {
-                            it.onEvent(value)
-                        }
-                    }
-                )
+                observable?.addObserver { value -> it.onEvent(value) }
             }
         }
     }

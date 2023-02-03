@@ -6,6 +6,7 @@ import plugins.essentialX.event.ListenerAllPath
 import plugins.essentialX.observerPattern.Observer
 import java.nio.file.Path
 
+@DefaultEnabled
 class EventPrinter : EssentialXPlugin(ListenerAllPath) {
 
     private lateinit var p: Path
@@ -16,11 +17,7 @@ class EventPrinter : EssentialXPlugin(ListenerAllPath) {
         board: BoardX
     ) {
         p = observerPath
-        addObserver(object : Observer<Event> {
-            override fun update(value: Event) {
-                println("12345")
-            }
-        })
+        addObserver(Observer { println("12345") })
     }
 
     override fun onEvent(event: Event) {

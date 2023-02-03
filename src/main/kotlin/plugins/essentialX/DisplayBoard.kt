@@ -3,9 +3,7 @@ package plugins.essentialX
 import board.Board
 import board.PointType
 import boardx.BoardX
-import boardx.NormalPriority
 import plugins.essentialX.event.*
-import plugins.essentialX.observerPattern.Observable
 import plugins.essentialX.observerPattern.Observer
 import java.nio.file.Path
 
